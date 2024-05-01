@@ -1,0 +1,76 @@
+{
+  "urn": "urn:mediator:carpha-dhis2-to-rhiss-dhis2",
+  "version": "0.1.0",
+  "name": "CARPHA DHIS2 to RHISS System",
+  "description": "Pulls record from CARPHA DHIS2 to Project DHIS2",
+  "endpoints": [
+    {
+      "name": "CARPHA DHIS2 Mapper Route",
+      "host": "localhost",
+      "port": "8600",
+      "type": "http"
+    }
+  ],
+  "configDefs": [
+    {
+      "param": "target-scheme",
+      "displayName": "Target Server Scheme",
+      "type": "option",
+      "values": ["http", "https"]
+    },
+    {
+      "param": "target-host",
+      "displayName": "Target Server Host",
+      "type": "string"
+    },
+    {
+      "param": "target-port",
+      "displayName": "Target Server Port",
+      "type": "number"
+    },
+    {
+      "param": "mappings-datasets",
+      "displayName": "Data Set Mappings",
+      "type": "map"
+    },
+    {
+      "param": "mappings-dataelements",
+      "displayName": "Data Element Mappings",
+      "type": "map"
+    },
+    {
+      "param": "mappings-orgunits",
+      "displayName": "OrgUnit Mappings",
+      "type": "map"
+    },
+    {
+      "param": "mappings-programs",
+      "displayName": "Program Mappings",
+      "type": "map"
+    },
+    {
+      "param": "originator_apiendpoint",
+      "displayName": "Originated Server API-endpoint",
+      "type": "string"
+    },
+    {
+      "param": "originator_user",
+      "displayName": "Originated Server Username",
+      "type": "string"
+    },
+    {
+      "param": "originator_passwd",
+      "displayName": "Originated Server password",
+      "type": "string"
+    }
+  ],
+  "config": {
+    "target-scheme": "https",
+    "target-host": "change_to_destination_base_url",
+    "target-port": 443,
+    "originator_apiendpoint": "https://infobase.carpha.org/direcct/api/analytics/dataValueSet.json?dimension=dx%3AkdTMGEIsnse.Vg1dIp9gz8M%3BkdTMGEIsnse.AJ5otp8YauH%3BKPB6UbxSaqk%3BSIe4Mas1yDc%3BpOPHGEEh6FF%3BwYymVgrABkO%3BsJ1Z3saTdUV%3BdLvNGfoCsgg&dimension=pe%3A202401&dimension=ou%3ABO8psOMZwbr&showHierarchy=false&hierarchyMeta=false&includeMetadataDetails=true&includeNumDen=true&skipRounding=false&completedOnly=false",
+    "originator_user": "adulojusm@gmail.com",
+    "originator_passwd": "K8!71_&aJ"
+
+  }
+}

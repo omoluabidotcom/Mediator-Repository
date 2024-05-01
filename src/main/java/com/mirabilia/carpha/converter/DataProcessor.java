@@ -4,7 +4,7 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-package com.mirabilia.carpha.enrichers;
+package com.mirabilia.carpha.converter;
 
 import javax.xml.stream.XMLEventFactory;
 import javax.xml.stream.XMLEventWriter;
@@ -16,14 +16,14 @@ import java.util.*;
 
 /**
  */
-public class DXFEnricher extends IdentityEnricher {
+public class DataProcessor extends DataExchanger {
     private Map<String, String> dataSetsMap;
     private Map<String, String> dataElementsMap;
     private Map<String, String> orgUnitsMap;
     private Map<String, String> programsMap;
     private XMLEventFactory eventFactory = XMLEventFactory.newFactory();
 
-    public DXFEnricher(Map<String, String> dataSetsMap, Map<String, String> dataElementsMap, Map<String, String> orgUnitsMap, Map<String, String> programsMap) {
+    public DataProcessor(Map<String, String> dataSetsMap, Map<String, String> dataElementsMap, Map<String, String> orgUnitsMap, Map<String, String> programsMap) {
         this.dataSetsMap = dataSetsMap != null ? dataSetsMap : Collections.<String, String>emptyMap();
         this.dataElementsMap = dataElementsMap != null ? dataElementsMap : Collections.<String, String>emptyMap();
         this.orgUnitsMap = orgUnitsMap != null ? orgUnitsMap : Collections.<String, String>emptyMap();

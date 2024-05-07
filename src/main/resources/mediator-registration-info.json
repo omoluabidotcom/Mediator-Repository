@@ -70,7 +70,7 @@
     "target-port": 443,
     "originator_apiendpoint": "https://infobase.carpha.org/direcct/api/analytics/dataValueSet.json?dimension=dx%3AkdTMGEIsnse.Vg1dIp9gz8M%3BkdTMGEIsnse.AJ5otp8YauH%3BKPB6UbxSaqk%3BSIe4Mas1yDc%3BpOPHGEEh6FF%3BwYymVgrABkO%3BsJ1Z3saTdUV%3BdLvNGfoCsgg&dimension=pe%3A202401&dimension=ou%3ABO8psOMZwbr&showHierarchy=false&hierarchyMeta=false&includeMetadataDetails=true&includeNumDen=true&skipRounding=false&completedOnly=false",
     "originator_user": "adulojusm@gmail.com",
-    "originator_passwd": "K8!71_&aJ"
+    "originator_passwd": "xxx"
 
   }
 }

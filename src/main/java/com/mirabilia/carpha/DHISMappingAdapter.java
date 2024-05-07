@@ -125,6 +125,25 @@ public class DHISMappingAdapter extends UntypedActor {
 
             if(method.equalsIgnoreCase("GET") && endpointPath.equalsIgnoreCase("/trigger")) {//change trigger to the actual endpoint set in the console.
                 System.out.println("dddddddddd2222222222222222222ddddddddddddddddddddd" );
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
                 forwardRetiredData((MediatorHTTPRequest) msg, retrieveRemoteData((String)config.getDynamicConfig().get("originator_apiendpoint")));
 
 

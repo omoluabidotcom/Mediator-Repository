@@ -16,15 +16,13 @@ import org.openhim.mediator.engine.MediatorConfig;
 import org.openhim.mediator.engine.messages.ExceptError;
 import org.openhim.mediator.engine.messages.MediatorHTTPRequest;
 import org.openhim.mediator.engine.messages.MediatorHTTPResponse;
-import com.mirabilia.carpha.enrichers.DXFEnricher;
+import com.mirabilia.carpha.converter.DataProcessor;
 
 import javax.xml.stream.XMLStreamException;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.ProtocolException;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
@@ -43,8 +41,8 @@ public class DHISMappingAdapter extends UntypedActor {
         this.config = config;
     }
 
-    private DXFEnricher getEnricher() {
-        return new DXFEnricher(
+    private DataProcessor getProcessor() {
+        return new DataProcessor(
                 (Map<String, String>)config.getDynamicConfig().get("mappings-datasets"),
                 (Map<String, String>)config.getDynamicConfig().get("mappings-dataelements"),
                 (Map<String, String>)config.getDynamicConfig().get("mappings-orgunits"),
@@ -105,7 +103,7 @@ public class DHISMappingAdapter extends UntypedActor {
             String body = null;
 
             if (request.getMethod().equalsIgnoreCase("POST") || request.getMethod().equalsIgnoreCase("PUT")) {
-                body = getEnricher().enrich(request.getBody());
+                body = getProcessor().dataProcess(request.getBody());
             }
 
             forwardRequest(request, body);

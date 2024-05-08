@@ -6,15 +6,15 @@
   <component name="ChangeListManager">
     <list default="true" id="3430380b-d5b7-4b42-abb4-4b108d46e448" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/mirabilia/carpha/DHISMappingAdapter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/mirabilia/carpha/DHISMappingAdapter.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/mirabilia/carpha/enrichers/DXFEnricher.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/mirabilia/carpha/converter/DataProcessor.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/mirabilia/carpha/enrichers/IdentityEnricher.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/mirabilia/carpha/converter/DataExchanger.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Merge.Settings">
+    <option name="BRANCH" value="yahaya-dev" />
   </component>
   <component name="Git.Pull.Settings">
     <option name="OPTIONS">
@@ -26,6 +26,9 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
   <component name="ProjectId" id="2fdj5ZWj7UtZE89Z11xP0EnQE0u" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true">
     <ConfirmationsSetting value="2" id="Add" />
@@ -35,7 +38,11 @@
     <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent">
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="node.js.selected.package.tslint" value="(autodetect)" />
+    <property name="nodejs_package_manager_path" value="npm" />
   </component>
   <component name="RunManager" selected="Application.MediatorMain">
     <configuration name="MediatorMain" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
@@ -78,8 +85,13 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1714137032312</updated>
+      <workItem from="1715106807712" duration="576000" />
+      <workItem from="1715160029835" duration="769000" />
     </task>
     <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
     <option name="TAB_STATES">

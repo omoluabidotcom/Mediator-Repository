@@ -121,29 +121,12 @@ public class DHISMappingAdapter extends UntypedActor {
             String method = ((MediatorHTTPRequest) msg).getMethod();
             String endpointPath = ((MediatorHTTPRequest) msg).getPath();
 
+            // Check if polling is configure for this mediator
             if(method.equalsIgnoreCase("GET") && endpointPath.equalsIgnoreCase("/trigger")) {//change trigger to the actual endpoint set in the console.
                 System.out.println("dddddddddd2222222222222222222ddddddddddddddddddddd" );
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+                // Connect to CMS endpoint retrieve body and send to dataexchanger for adaptation and forwarding to dhis2
                 forwardRetiredData((MediatorHTTPRequest) msg, retrieveRemoteData((String)config.getDynamicConfig().get("originator_apiendpoint")));
-
 
             } else {
                 processRequest((MediatorHTTPRequest) msg);

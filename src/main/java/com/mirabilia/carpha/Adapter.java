@@ -17,7 +17,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
 
-public class MediatorMain {
+public class Adapter {
 
     private static RoutingTable buildRoutingTable() throws RoutingTable.RouteAlreadyMappedException {
         RoutingTable routingTable = new RoutingTable();
@@ -40,7 +40,7 @@ public class MediatorMain {
 
             config.setProperties(props);
         } else {
-            config.setProperties("mediator.properties");
+            config.setProperties("app.properties");
         }
 
         config.setName(config.getProperty("mediator.name"));
@@ -57,7 +57,7 @@ public class MediatorMain {
 
         config.setRoutingTable(buildRoutingTable());
 
-        InputStream regInfo = MediatorMain.class.getClassLoader().getResourceAsStream("mediator-registration-info.json");
+        InputStream regInfo = Adapter.class.getClassLoader().getResourceAsStream("registration-info.json");
         RegistrationConfig regConfig = new RegistrationConfig(regInfo);
         config.setRegistrationConfig(regConfig);
 

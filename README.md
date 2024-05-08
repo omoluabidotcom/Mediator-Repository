@@ -20,4 +20,5 @@ The major objective of this repository is to serve as the centre domain for all 
 - change the name and the description to suite the purpose of the adapter
 - change the port under the endpoint to a unique port; (this can be obtained from the project lead)
 - note that original passwords should never be stored on the json file or anywhere on this mediator; please use placeholder passwords only.
-**NB** All modification under Code Setup will done in the mediator-registration-info.json under the resources package. 
+
+**NB** All modification under Code Setup will done in the registration-info.json under the resources package. 

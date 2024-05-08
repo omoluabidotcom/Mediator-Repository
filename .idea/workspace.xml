@@ -4,15 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="3430380b-d5b7-4b42-abb4-4b108d46e448" name="Changes" comment="update: commenting code">
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/mirabilia/carpha/util/RemoteAccess.java" afterDir="false" />
+    <list default="true" id="3430380b-d5b7-4b42-abb4-4b108d46e448" name="Changes" comment="update: codebase refactor for connecting external system">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/mirabilia/carpha/DHISMappingAdapter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/mirabilia/carpha/DHISMappingAdapter.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/mirabilia/carpha/MediatorMain.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/mirabilia/carpha/Adapter.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/mirabilia/carpha/converter/DataExchanger.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/mirabilia/carpha/converter/DataExchanger.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/mediator-registration-info.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/registration-info.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/mediator.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/app.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/mirabilia/carpha/util/RemoteAccess.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/mirabilia/carpha/util/RemoteAccess.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/registration-info.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/registration-info.json" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -102,7 +98,7 @@
       <updated>1714137032312</updated>
       <workItem from="1715106807712" duration="576000" />
       <workItem from="1715160029835" duration="1484000" />
-      <workItem from="1715165443468" duration="3281000" />
+      <workItem from="1715165443468" duration="4078000" />
     </task>
     <task id="LOCAL-00001" summary="update: commenting code">
       <created>1715160972908</created>
@@ -111,7 +107,14 @@
       <option name="project" value="LOCAL" />
       <updated>1715160972908</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="update: codebase refactor for connecting external system">
+      <created>1715169212891</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1715169212891</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -147,6 +150,7 @@
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
     <MESSAGE value="update: commenting code" />
-    <option name="LAST_COMMIT_MESSAGE" value="update: commenting code" />
+    <MESSAGE value="update: codebase refactor for connecting external system" />
+    <option name="LAST_COMMIT_MESSAGE" value="update: codebase refactor for connecting external system" />
   </component>
 </project>

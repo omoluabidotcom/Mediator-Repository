@@ -76,7 +76,7 @@ public class RemoteAccess {
                     sb.append(line + "\n");
                 }
                 br.close();
-
+                System.out.println(sb.toString());
                 return sb.toString();
             }
 

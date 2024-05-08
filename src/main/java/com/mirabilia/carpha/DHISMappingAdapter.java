@@ -28,9 +28,9 @@ public class DHISMappingAdapter extends UntypedActor {
     private RemoteAccess remoteAccess;
 
 
-    public DHISMappingAdapter(MediatorConfig config, RemoteAccess remoteAccess) {
+    public DHISMappingAdapter(MediatorConfig config) {
         this.config = config;
-        this.remoteAccess = remoteAccess;
+        this.remoteAccess = new RemoteAccess(config);
     }
 
     private DataProcessor getProcessor() {

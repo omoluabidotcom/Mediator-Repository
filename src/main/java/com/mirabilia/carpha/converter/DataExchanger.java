@@ -4,7 +4,7 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-package com.mirabilia.carpha.enrichers;
+package com.mirabilia.carpha.converter;
 
 import org.apache.commons.io.IOUtils;
 
@@ -18,12 +18,13 @@ import java.io.StringWriter;
  *
  * Subclasses can override the processXMLEvent method in order to enrich a document
  */
-public class IdentityEnricher {
+public class DataExchanger {
     protected void processXMLEvent(XMLEventWriter out, XMLEvent event) throws XMLStreamException {
         out.add(event);
     }
 
-    public String enrich(String xml) throws XMLStreamException {
+    public String dataProcess(String xml) throws XMLStreamException {
+
         InputStream in = IOUtils.toInputStream(xml);
         XMLEventReader reader = XMLInputFactory.newInstance().createXMLEventReader(in);
         StringWriter output = new StringWriter();

@@ -14,9 +14,11 @@ The major objective of this repository is to serve as the centre domain for all 
 - You can also setup a local testing environment on your local machine for this purpose following the guideline on DHIS2, Mongo DB, OpenHIM and HL7 Hapi Websites.
 
 ### Code Setup 
-**Important**
--  All collaborators are to clone the master template branch into a new branch in the following naming convention i.e. devlevel-cms-country-mediator (e.g master-lmis-barbados-mediator) depending on the system you are adapting.
--  change the urn using the following naming convention urn:mediator:carpha-<cms>-<country>-to-riphssdhis2
--  change the name and the description to suite the purpose of the adapter
--  change the port under the endpoint to a unique port; (this can be obtained from the project lead)
--  note that original passwords should never be stored on the json file or anywhere on this mediator; please use placeholder passwords only. 
+**Important** 
+- All collaborators are to clone the master template branch into a new branch in the following naming convention i.e. devlevel-cms-country-mediator (e.g master-lmis-barbados-mediator) depending on the system you are adapting.
+- change the urn using the following naming convention urn:mediator:carpha-<cms>-<country>-to-riphssdhis2
+- change the name and the description to suite the purpose of the adapter
+- change the port under the endpoint to a unique port; (this can be obtained from the project lead)
+- note that original passwords should never be stored on the json file or anywhere on this mediator; please use placeholder passwords only.
+
+**NB** All modification under Code Setup will done in the registration-info.json under the resources package. 

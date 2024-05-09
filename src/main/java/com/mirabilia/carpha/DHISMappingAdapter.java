@@ -9,46 +9,36 @@ package com.mirabilia.carpha;
 import akka.actor.ActorRef;
 import akka.actor.ActorSelection;
 import akka.actor.UntypedActor;
-import akka.event.Logging;
-import akka.event.LoggingAdapter;
-import org.apache.commons.codec.binary.Base64;
+import com.mirabilia.carpha.converter.DataProcessor;
+import com.mirabilia.carpha.util.RemoteAccess;
 import org.openhim.mediator.engine.MediatorConfig;
 import org.openhim.mediator.engine.messages.ExceptError;
 import org.openhim.mediator.engine.messages.MediatorHTTPRequest;
 import org.openhim.mediator.engine.messages.MediatorHTTPResponse;
-import com.mirabilia.carpha.enrichers.DXFEnricher;
 
 import javax.xml.stream.XMLStreamException;
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.ProtocolException;
-import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 public class DHISMappingAdapter extends UntypedActor {
-    LoggingAdapter log = Logging.getLogger(getContext().system(), this);
 
     private final MediatorConfig config;
     private ActorRef requestHandler;
     private ActorRef respondTo;
+    private RemoteAccess remoteAccess;
 
 
     public DHISMappingAdapter(MediatorConfig config) {
         this.config = config;
+        this.remoteAccess = new RemoteAccess(config);
     }
 
-    private DXFEnricher getEnricher() {
-        return new DXFEnricher(
-                (Map<String, String>)config.getDynamicConfig().get("mappings-datasets"),
-                (Map<String, String>)config.getDynamicConfig().get("mappings-dataelements"),
-                (Map<String, String>)config.getDynamicConfig().get("mappings-orgunits"),
-                (Map<String, String>)config.getDynamicConfig().get("mappings-programs")
+    private DataProcessor getProcessor() {
+        return new DataProcessor(
+                (Map<String, String>) config.getDynamicConfig().get("mappings-datasets"),
+                (Map<String, String>) config.getDynamicConfig().get("mappings-dataelements"),
+                (Map<String, String>) config.getDynamicConfig().get("mappings-orgunits"),
+                (Map<String, String>) config.getDynamicConfig().get("mappings-programs")
         );
     }
 
@@ -68,9 +58,9 @@ public class DHISMappingAdapter extends UntypedActor {
                 getSelf(),
                 "Forward Request",
                 originalRequest.getMethod(),
-                (String)config.getDynamicConfig().get("target-scheme"),
-                (String)config.getDynamicConfig().get("target-host"),
-                ((Double)config.getDynamicConfig().get("target-port")).intValue(),
+                (String) config.getDynamicConfig().get("target-scheme"),
+                (String) config.getDynamicConfig().get("target-host"),
+                ((Double) config.getDynamicConfig().get("target-port")).intValue(),
                 originalRequest.getPath(),
                 body,
                 copyHeaders(originalRequest.getHeaders()),
@@ -81,15 +71,15 @@ public class DHISMappingAdapter extends UntypedActor {
         httpConnector.tell(newRequest, getSelf());
     }
 
-    private void forwardRetiredData(MediatorHTTPRequest originalRequest, String body) {
+    private void forwardRetrievedData(MediatorHTTPRequest originalRequest, String body) {
         MediatorHTTPRequest newRequest = new MediatorHTTPRequest(
                 requestHandler,
                 getSelf(),
                 "Forward Request",
                 "GET",
-                (String)config.getDynamicConfig().get("target-scheme"),
-                (String)config.getDynamicConfig().get("target-host"),
-                ((Double)config.getDynamicConfig().get("target-port")).intValue(),
+                (String) config.getDynamicConfig().get("target-scheme"),
+                (String) config.getDynamicConfig().get("target-host"),
+                ((Double) config.getDynamicConfig().get("target-port")).intValue(),
                 "/", //TODO check to make sure this works
                 body,
                 copyHeaders(originalRequest.getHeaders()),
@@ -105,7 +95,7 @@ public class DHISMappingAdapter extends UntypedActor {
             String body = null;
 
             if (request.getMethod().equalsIgnoreCase("POST") || request.getMethod().equalsIgnoreCase("PUT")) {
-                body = getEnricher().enrich(request.getBody());
+                body = getProcessor().dataProcess(request.getBody());
             }
 
             forwardRequest(request, body);
@@ -116,131 +106,25 @@ public class DHISMappingAdapter extends UntypedActor {
 
     @Override
     public void onReceive(Object msg) throws Exception {
-        System.out.println("dddddddd2111111111111111111dddddddddddddddddd" );
         if (msg instanceof MediatorHTTPRequest) { //inbound request
             requestHandler = ((MediatorHTTPRequest) msg).getRequestHandler();
             respondTo = ((MediatorHTTPRequest) msg).getRespondTo();
             String method = ((MediatorHTTPRequest) msg).getMethod();
             String endpointPath = ((MediatorHTTPRequest) msg).getPath();
 
-            if(method.equalsIgnoreCase("GET") && endpointPath.equalsIgnoreCase("/trigger")) {//change trigger to the actual endpoint set in the console.
-                System.out.println("dddddddddd2222222222222222222ddddddddddddddddddddd" );
+            // Check if polling is configure for this adapter
+            if (method.equalsIgnoreCase("GET") && endpointPath.equalsIgnoreCase("/trigger")) {
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-                forwardRetiredData((MediatorHTTPRequest) msg, retrieveRemoteData((String)config.getDynamicConfig().get("originator_apiendpoint")));
-
-
+                // forward the data to RIPHSS System !important to pass the retrieved and cleaned data here
+                forwardRetrievedData((MediatorHTTPRequest) msg, remoteAccess.retrieveRemoteData((String) config.getDynamicConfig().get("originator_apiendpoint")));
             } else {
                 processRequest((MediatorHTTPRequest) msg);
             }
-        } else if (msg instanceof MediatorHTTPResponse) { //response from target server
-            System.out.println("dddddd33333333333333333333333dddddddddddddd" );
+        } else if (msg instanceof MediatorHTTPResponse) {
             respondTo.tell(((MediatorHTTPResponse) msg).toFinishRequest(), getSelf());
-
         } else {
             unhandled(msg);
         }
     }
-
-    private String retrieveRemoteData(String pg_url) {
-
-                HttpURLConnection urlConnection = null;
-
-                String name = (String)config.getDynamicConfig().get("originator_user");
-                String password = (String)config.getDynamicConfig().get("originator_passwd");
-                StringBuilder sb = new StringBuilder();
-
-                String authString = name + ":" + password;
-                if (name.isEmpty()) {
-                    return "";
-                }
-                  System.out.println("ddddddddddddddddddddddddddddddddddddddddddddd" +authString);
-                byte[] authEncBytes = Base64.encodeBase64(authString.getBytes());
-                String authStringEnc = new String(authEncBytes);
-                try {
-                    URL url = new URL(pg_url);
-                      System.out.println(pg_url+"ddddddddddddddddddddddddddddddddddddddddddddddddddddd");
-                    urlConnection = (HttpURLConnection) url.openConnection();
-                    urlConnection.setRequestProperty("Authorization", "Basic " + authStringEnc);
-                    urlConnection.setDoOutput(true);
-                    urlConnection.setRequestMethod("GET");
-                    urlConnection.setUseCaches(true);
-                    urlConnection.setConnectTimeout(4000);
-                    urlConnection.setReadTimeout(4000);
-                    urlConnection.setRequestProperty("Content-Type", "application/json");
-                    urlConnection.connect();
-
-                    int HttpResult = urlConnection.getResponseCode();
-                    //debug
-                    System.out.println("######cccccccccccc####Outreach Session HTTP Return Code = " + HttpResult);
-
-                    if (HttpResult == 200) {
-                        BufferedReader br = new BufferedReader(new InputStreamReader(urlConnection.getInputStream(), "utf-8"));
-                        String line = null;
-                        while ((line = br.readLine()) != null) {
-                            sb.append(line + "\n");
-                        }
-                        br.close();
-
-                        //debug
-                        System.out.println("#########AAA###" + sb.toString());
-                        if (sb.toString().indexOf("success") >= 1) {
-                            //      response.setStatus(200);
-                            System.err.println("FIXED: Success!");
-                            return sb.toString();
-                        }
-                        if (sb.toString().indexOf("warning") >= 1) {
-                            //        response.setStatus(300);
-                            System.err.println("FIXED: Warning!");
-                            return sb.toString();
-                        }
-                        if ((sb.toString().indexOf("warning") >= 1) || (sb.toString().indexOf("success") >= 1)) {
-                            //      response.setStatus(414);
-                            System.err.println("Noticable Error:\n" + sb.toString());
-                            return sb.toString();
-                        }
-                        System.out.println("Debugger QWERTYUH.456Y.VFR567Y: " + sb.toString());
-                    } else {
-                        //response.setStatus(502, "DHIS2 Not there!");
-                        System.out.println("####CCCCCCCCCCCCCC" + urlConnection.getInputStream().toString());
-                        BufferedReader br = new BufferedReader(new InputStreamReader(urlConnection.getErrorStream(), "utf-8"));
-                        String line = null;
-                        while ((line = br.readLine()) != null) {
-                            sb.append(line + "\n");
-                        }
-                        br.close();
-
-                        System.out.println("Debugger DFGH.456Y.VFR567Y: " + sb.toString());
-                        System.out.println("OUT ERROR: 567uyt.876.gy: " + urlConnection.getResponseMessage());
-                        return sb.toString();
-
-                        //TODO
-                    }
-
-                } catch (IOException ex) {
-                    Logger.getLogger(DHISMappingAdapter.class.getName()).log(Level.SEVERE, "error occured in resolver", ex);
-
-                }
-                System.out.println(sb.toString());
-                return sb.toString();
-            }
-
 
 }

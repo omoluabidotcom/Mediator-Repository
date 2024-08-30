@@ -4,7 +4,7 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-package com.mirabilia.carpha;
+package com.mirabilia.giz;
 
 import akka.actor.ActorSystem;
 import akka.event.Logging;
@@ -17,12 +17,12 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
 
-public class Adapter {
+public class MediatorMain {
 
     private static RoutingTable buildRoutingTable() throws RoutingTable.RouteAlreadyMappedException {
         RoutingTable routingTable = new RoutingTable();
 
-        routingTable.addRegexRoute(".*", DHISMappingAdapter.class);
+        routingTable.addRegexRoute(".*", MiddlewareMappingAdapter.class);
 
         return routingTable;
     }
@@ -57,7 +57,7 @@ public class Adapter {
 
         config.setRoutingTable(buildRoutingTable());
 
-        InputStream regInfo = Adapter.class.getClassLoader().getResourceAsStream("registration-info.json");
+        InputStream regInfo = MediatorMain.class.getClassLoader().getResourceAsStream("registration-info.json");
         RegistrationConfig regConfig = new RegistrationConfig(regInfo);
         config.setRegistrationConfig(regConfig);
 

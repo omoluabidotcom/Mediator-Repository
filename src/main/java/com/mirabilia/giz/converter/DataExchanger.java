@@ -4,7 +4,7 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-package com.mirabilia.carpha.converter;
+package com.mirabilia.giz.converter;
 
 import org.apache.commons.io.IOUtils;
 

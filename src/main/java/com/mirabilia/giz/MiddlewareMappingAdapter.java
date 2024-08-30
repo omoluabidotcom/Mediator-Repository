@@ -4,13 +4,14 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-package com.mirabilia.carpha;
+package com.mirabilia.giz;
 
 import akka.actor.ActorRef;
 import akka.actor.ActorSelection;
 import akka.actor.UntypedActor;
-import com.mirabilia.carpha.converter.DataProcessor;
-import com.mirabilia.carpha.util.RemoteAccess;
+import com.mirabilia.giz.converter.DataProcessor;
+import com.mirabilia.giz.sormas.SormasDataProcessor;
+import com.mirabilia.giz.util.RemoteAccess;
 import org.openhim.mediator.engine.MediatorConfig;
 import org.openhim.mediator.engine.messages.ExceptError;
 import org.openhim.mediator.engine.messages.MediatorHTTPRequest;
@@ -20,7 +21,7 @@ import javax.xml.stream.XMLStreamException;
 import java.util.HashMap;
 import java.util.Map;
 
-public class DHISMappingAdapter extends UntypedActor {
+public class MiddlewareMappingAdapter extends UntypedActor {
 
     private final MediatorConfig config;
     private ActorRef requestHandler;
@@ -28,7 +29,7 @@ public class DHISMappingAdapter extends UntypedActor {
     private RemoteAccess remoteAccess;
 
 
-    public DHISMappingAdapter(MediatorConfig config) {
+    public MiddlewareMappingAdapter(MediatorConfig config) {
         this.config = config;
         this.remoteAccess = new RemoteAccess(config);
     }
@@ -44,7 +45,7 @@ public class DHISMappingAdapter extends UntypedActor {
 
     private Map<String, String> copyHeaders(Map<String, String> headers) {
         Map<String, String> copy = new HashMap<>();
-        copy.put("content-type", headers.get("content-type"));
+        copy.put("content-type", "application/xml");
         copy.put("authorization", headers.get("authorization"));
         copy.put("x-openhim-transactionid", headers.get("x-openhim-transactionid"));
         copy.put("x-forwarded-for", headers.get("x-forwarded-for"));
@@ -76,11 +77,11 @@ public class DHISMappingAdapter extends UntypedActor {
                 requestHandler,
                 getSelf(),
                 "Forward Request",
-                "GET",
+                "POST",
                 (String) config.getDynamicConfig().get("target-scheme"),
                 (String) config.getDynamicConfig().get("target-host"),
                 ((Double) config.getDynamicConfig().get("target-port")).intValue(),
-                "/", //TODO check to make sure this works
+                originalRequest.getPath(), //TODO check to make sure this works
                 body,
                 copyHeaders(originalRequest.getHeaders()),
                 originalRequest.getParams()
@@ -106,6 +107,15 @@ public class DHISMappingAdapter extends UntypedActor {
 
     @Override
     public void onReceive(Object msg) throws Exception {
+
+//        byte[] authEncBytes = Base64.encodeBase64(authString.getBytes());
+//        String authStringEnc = new String(authEncBytes);
+
+        if (msg instanceof MediatorHTTPRequest) {
+            System.out.println(msg.toString() + " gggggggggggggggggg");
+//            "Authorization", "Basic " + authStringEnc
+        }
+
         if (msg instanceof MediatorHTTPRequest) { //inbound request
             requestHandler = ((MediatorHTTPRequest) msg).getRequestHandler();
             respondTo = ((MediatorHTTPRequest) msg).getRespondTo();
@@ -113,10 +123,15 @@ public class DHISMappingAdapter extends UntypedActor {
             String endpointPath = ((MediatorHTTPRequest) msg).getPath();
 
             // Check if polling is configure for this adapter
-            if (method.equalsIgnoreCase("GET") && endpointPath.equalsIgnoreCase("/trigger")) {
+            if (method.equalsIgnoreCase("GET") && endpointPath.equalsIgnoreCase("/dhis/api/dataValueSets")) {
+
+//                String rawSormasData = remoteAccess.retrieveRemoteData((String) config.getDynamicConfig().get("originator_apiendpoint"));
+
+//                String transposedData = SormasDataProcessor.transposeSomrasData(rawSormasData);
+                String transposedData = SormasDataProcessor.transposeSomrasData("");
 
                 // forward the data to RIPHSS System !important to pass the retrieved and cleaned data here
-                forwardRetrievedData((MediatorHTTPRequest) msg, remoteAccess.retrieveRemoteData((String) config.getDynamicConfig().get("originator_apiendpoint")));
+                forwardRetrievedData((MediatorHTTPRequest) msg, getProcessor().dataProcess(transposedData));
             } else {
                 processRequest((MediatorHTTPRequest) msg);
             }

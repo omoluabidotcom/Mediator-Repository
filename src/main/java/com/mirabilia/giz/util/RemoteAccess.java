@@ -1,6 +1,6 @@
-package com.mirabilia.carpha.util;
+package com.mirabilia.giz.util;
 
-import com.mirabilia.carpha.DHISMappingAdapter;
+import com.mirabilia.giz.MiddlewareMappingAdapter;
 import org.apache.commons.codec.binary.Base64;
 import org.openhim.mediator.engine.MediatorConfig;
 
@@ -38,14 +38,15 @@ public class RemoteAccess {
         byte[] authEncBytes = Base64.encodeBase64(authString.getBytes());
         String authStringEnc = new String(authEncBytes);
         try {
+            System.out.println(pg_url + " urlllllllllllllllllll");
             URL url = new URL(pg_url);
             urlConnection = (HttpURLConnection) url.openConnection();
             urlConnection.setRequestProperty("Authorization", "Basic " + authStringEnc);
             urlConnection.setDoOutput(true);
             urlConnection.setRequestMethod("GET");
             urlConnection.setUseCaches(true);
-            urlConnection.setConnectTimeout(4000);
-            urlConnection.setReadTimeout(4000);
+            urlConnection.setConnectTimeout(20000);
+            urlConnection.setReadTimeout(20000);
             urlConnection.setRequestProperty("Content-Type", "application/json");
             urlConnection.connect();
 
@@ -81,7 +82,7 @@ public class RemoteAccess {
             }
 
         } catch (IOException ex) {
-            Logger.getLogger(DHISMappingAdapter.class.getName()).log(Level.SEVERE, "error occured in resolver", ex);
+            Logger.getLogger(MiddlewareMappingAdapter.class.getName()).log(Level.SEVERE, "error occured in resolver", ex);
         }
 
         return sb.toString();
